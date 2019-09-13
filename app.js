@@ -31,6 +31,13 @@ eventHandler.on('ready', () => {
     console.log(`${chalk.green('✓')} connected to message queue`);
 });
 
+//run page view updater every 24 hour at 12:00 PM
+cron.schedule('0 0 0 * * *', () => {
+     // start page view update process
+     updatePostPageViews();
+});
+
+// if we get page view request from queue
 sock.on('message', (topic, message) => {
     console.log(message)
     if(topic.toString() === nconf.get('queue') && message.toString() === 'updatepageview') {
